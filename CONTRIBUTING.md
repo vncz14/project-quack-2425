@@ -1,4 +1,4 @@
-below is a guide for my mentees on this project's development process
+this is a guide for my mentees on this project's development process
 
 ## trunk-based development
 
@@ -23,7 +23,7 @@ we will be using [**trunk-based development**](https://trunkbaseddevelopment.com
 
 ## pull requests (getting your code approved)
 
-- as soon as you have completed the feature/bug outlined in the issue (and are passing tests if applicable), create a pull request from your branch to main.
+- as soon as you have completed the feature/bug outlined in the issue (and are passing tests if applicable), [create a pull request](https://github.com/vncz14/project-quack-2425/pulls) from your branch to main.
 - pull requests must be approved by either me or a mentee on your team.
   - please indicate in the pull request who should review it (me, a specific mentee, any mentee, anyone, etc)
 
