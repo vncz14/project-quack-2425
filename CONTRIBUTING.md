@@ -33,7 +33,3 @@ we will be using [**trunk-based development**](https://trunkbaseddevelopment.com
 - feature branches should be deleted after merging into main (this is the reviewer's responsibility)
 
 
-## conclusion: communication
-
-remember to communicate with me and your fellow mentees. things don't get done when people don't communicate. please raise any questions or concerns to me: that's why i'm here.
-
