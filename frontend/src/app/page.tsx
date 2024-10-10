@@ -7,7 +7,9 @@ export default function Home() {
         <div>
             <Text as="h2">Shadcn text component (Homepage)</Text>
             <Button asChild>
-                <Link href="/event">shadcn button component (event list)</Link>
+                <Link href="/event">
+                    <Text as="h4">shadcn button component (event list)</Text>
+                </Link>
             </Button>
         </div>
     );
