@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const ExampleEventList = async () => {
     const res = await fetch(`${process.env.API_URL}/event`, {
-        next: { revalidate: 10 },
+        cache: "no-store",
     });
     const events = await res.json();
     return events.map(
