@@ -15,6 +15,3 @@ python manage.py runserver
 ```
 
 Go to http://localhost:8000/admin and log in with your superuser credentials
-
-#CTRL+SPACE FOR INTELLISENCE 
-#CTRL+SHIFT+O
