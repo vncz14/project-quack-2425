@@ -5,11 +5,10 @@ class Event(models.Model):
     name = models.CharField(max_length=30, null=False)
     description = models.CharField(max_length=255, null=True)
     interestTags = 
-    publicStatus = models.BooleanField () #true=public, false=private
     maxCapacity = models.IntegerField()
-    invites =
+    invites = # would this be the people who are invited?
     location =
-    eventType =
+    eventType = models.CharField(choices=[public, private]) # have to check docs to see if this is correct
     eventDate = models.DateTimeField()
 
 
@@ -19,11 +18,7 @@ class Users(models.Model):
     firstName = models.CharField(max_length=255)
     lastName = models.CharField(max_length=255)
     bio = models.CharField(max_length=255)
-    major = [
-    ('CSE', 'Computer Science'),
-    ('AMS', 'Applied Mathematics and Statistics'),
-    ('BIO', 'Biology'),
-    ]
+    major = models.Charfield(choices=[]) # also have to check docs to see if this is correct
     interests = 
     points = models.IntegerField()
-    eventsWentTo = #would this be integer, char, or something else?
+    eventsWentTo = # would this be integer, char, or something else?
