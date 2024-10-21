@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import Link from "next/link";
-
+import LoginLogoutButton from "@/components/login-logout/loginLogoutButton";
 export default function Home() {
     return (
         <div>
@@ -11,6 +11,7 @@ export default function Home() {
                     <Text as="h4">shadcn button component (event list)</Text>
                 </Link>
             </Button>
+            <LoginLogoutButton/>
         </div>
     );
 }
