@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Navbar from "../components/custom/navbar";
+import Footer from "../components/custom/footer";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 
@@ -28,10 +30,14 @@ export default function RootLayout({
         <GoogleOAuthProvider clientId="879500142223-iimqo0lppe032d9aaablb0fpbtmrn7sg.apps.googleusercontent.com">
             <html lang="en">
                 <body
-                    className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                    className={`${geistSans.variable} ${geistMono.variable} antialiased ` 
+                    + 'h-lvh flex flex-col p-1 sm:p-3'
+                }
                 >
-                    {children}
-                </body>
+                    <Navbar />
+                {children}
+                    <Footer />
+            </body>
             </html>
         </GoogleOAuthProvider>
     );
