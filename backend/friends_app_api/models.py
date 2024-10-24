@@ -7,16 +7,13 @@ class Event(models.Model):
     description = models.CharField(max_length=255, null=True)
     interestTags = models.CharField(choices=[])
     maxCapacity = models.IntegerField()
-    invites = # would this be the people who are invited? If so, maybe connect this to the user id
+    invites = # manytomanyfield of a new custom invite model
     location = models.CharField(choices=[])
     eventType = models.CharField(choices=["Social", "Bike", "Walk"]) # add other types
     eventDate = models.DateTimeField()
-    owner = # connect to user id?
+    owner = models.ForeignKey(Users)
     publicStatus = models.CharField(choices=["Public", "Private"])
-    chats = # how would this be implemented/connected to db?
-    rsvps = #connect to user ids
-    participants = # people who show up, also connect to user ids (and maybe limit to only people to rsvp'd)
-
+    #chats = 
 
 
 class Users(models.Model):
@@ -26,13 +23,13 @@ class Users(models.Model):
     major = models.Charfield(choices=[])
     interests = models.CharField(choices=[])
     clubs = models.CharField(choices=[])
-    points = models.IntegerField()
-    eventsWentTo = # would this be integer, char, or something else?
-    id = models.IntegerField() # isn't in the doc but a unique id might make things easier, could also be used for referral code system
+    points = models.PositiveIntegerField()
+    eventsWentTo = # make a computed property
     residentialStatus = models.CharField(choices=["Residential", "Commuter"])
-    calendar =
+    calendar = #foreignkey to a calendar model (ISSUE)
     standing = models.CharField(choices=["Freshman", "Sophomore", "Junior", "Senior"]) # also not in doc, should we include grad students?
     # work on google auth stuff
+
     # stretch goal: items for wolfie
 
 # stretch goals: invite class and chat message class
