@@ -5,6 +5,7 @@ import {
   NavigationMenu, NavigationMenuItem, NavigationMenuLink, 
   NavigationMenuList, navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
+import LoginLogoutButton from "@/components/ui/loginButton";
 
 export default function Navbar() {
   const navLinks = ["/", "link1", "link2", "link3"];
@@ -22,6 +23,7 @@ export default function Navbar() {
                     {link}
                   </NavigationMenuLink>
               )}
+              <LoginLogoutButton/>
             </div>
           </NavigationMenuItem>
         </NavigationMenuList>
