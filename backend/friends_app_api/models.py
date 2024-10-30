@@ -3,7 +3,7 @@ from django.db import models
 class Event(models.Model):
     name = models.CharField(max_length=30, null=False)
     description = models.CharField(max_length=255, null=True, editable=True)
-    interestTags = models.ForeignKey(Users.interests)
+    interestTags = models.ManyToManyField(InterestModel)
     maxCapacity = models.PositiveIntegerField(max_length=3)
     '''invites = manytomanyfield of a new custom invite model'''
     location = models.CharField(choices=locationChoices)
@@ -14,7 +14,7 @@ class Event(models.Model):
     locationChoices = [] #finish inputting
     # chats = 
 
-class Users(models.Model):
+class User(models.Model):
     firstName = models.CharField(max_length=255)
     lastName = models.CharField(max_length=255)
     bio = models.CharField(max_length=255)
@@ -32,5 +32,8 @@ class Users(models.Model):
         ('AMS', 'Applied Mathematics and Statistics')
     ] # finish inputting majors and major codes
     clubChoices = [] # finish inputting
-    interestChoices = [] # finish inputting
     # work on google auth stuff
+
+class InterestModel(models.Model):
+    interests = models.CharField(choices=interestChoices)
+    interestChoices = [] # finish inputting
