@@ -10,7 +10,7 @@ import LoginLogoutButton from "@/components/ui/loginButton";
 export default function Navbar() {
   const navLinks = ["/", "link1", "link2", "link3"];
   return (
-    <div className="bg-[#DFD3C3] p-3 rounded shadow-inner shadow-lg">
+    <div className="">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
