@@ -18,7 +18,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "Friends app",
+    title: "Wolfie's Social",
 };
 
 export default function RootLayout({
