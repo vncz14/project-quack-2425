@@ -5,4 +5,6 @@ from . import models
 
 admin.site.register(models.User)
 admin.site.register(models.Event)
-
+admin.site.register(models.Location)
+admin.site.register(models.Major)
+admin.site.register(models.Club)

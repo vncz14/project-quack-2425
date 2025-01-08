@@ -27,6 +27,9 @@ class User(models.Model):
   club = models.ForeignKey(Club, on_delete=models.SET_NULL, null=True) # associated clubs/clubs they are in
   def greeting(self):
     return "Hello " + self.username
+
+  def __str__(self):
+    return self.username
   
 
 class Event(models.Model):
@@ -37,6 +40,9 @@ class Event(models.Model):
   eventDate = models.DateTimeField(null=False)
   publicStatus = models.CharField(max_length=30, choices=[('OPEN','Open'), ('CLOSED','Closed')])
   location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True) #on_delete=models.SET_NULL means if a Location is deleted from databse, the Event will still exist but won't have any value in location field
+
+  def __str__(self):
+    return self.eventName
 
   # TAGS
   # interestTags = models.ForeignKey(Users.interests)
