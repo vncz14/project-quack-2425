@@ -47,7 +47,7 @@ Ensure the database schema is up-to-date:
 
 ---
 
-## CSV Import
+## CSV Import (Importing Events)
 
 ### CSV File Format
 The CSV file should have the following columns:
@@ -59,9 +59,9 @@ The CSV file should have the following columns:
 - **Date/Time**: Date and time of the event  
 - **Location**: Event location
 
-### Steps to Import CSV
+### Steps to Import CSV Events to Database
 1. Place your CSV file in the `media/csv_files/` directory.  
-2. Run:
+2. In the backend directory, run:
     ```python manage.py setup_db```
 3. The system will process the CSV and store events in the database.
 
