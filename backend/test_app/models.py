@@ -23,4 +23,5 @@ class Event(models.Model):
     ('SOCIAL','Social'), ('SPORT','Sport'), ('HOBBY','Hobby'), ('OTHER', 'Other')
     ])
   
+  location = models.CharField(max_length=255, null=True, blank=True)  # New location field
 
