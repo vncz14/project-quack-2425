@@ -1,8 +1,7 @@
 import csv
 import re
 from datetime import datetime
-from test_app.models import Event
-from test_app.models import User
+from test_app.models import Event, User, Location
 from django.db import transaction
 
 # Parses a date string in the format "Monday, January 6 at 11:30AM EST".
@@ -37,7 +36,14 @@ def process_csv(file_path):
                 # Parse fields
                 eventName = row['Title'].strip()
                 eventDate = parse_date(row['Date/Time'].strip())
-                location = row.get('Location', '').strip()
+                location_name = row.get('Location', '').strip()
+
+                # If location_name is empty, we'll keep location=None
+                location_obj = None
+                if location_name:
+                    # Find or create the location in the DB
+                    location_obj, _ = Location.objects.get_or_create(name=location_name)
+
 
                 # Fields that are not yet implemented in the csv
                 description = "No description provided"
@@ -54,7 +60,7 @@ def process_csv(file_path):
                     eventDate=eventDate,
                     publicStatus=publicStatus,
                     eventTags=eventTags,
-                    location=location
+                    location=location_obj
                 ))
 
             # insert into the database
