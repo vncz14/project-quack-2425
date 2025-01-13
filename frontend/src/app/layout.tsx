@@ -18,7 +18,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-    title: "Friends app",
+    title: "Wolfie's Social",
 };
 
 export default function RootLayout({
@@ -35,7 +35,7 @@ export default function RootLayout({
                 }
                 >
                     <Navbar />
-                    <div className="pb-10">
+                    <div className="py-4">
                         {children}
                     </div>
                     <Footer />
