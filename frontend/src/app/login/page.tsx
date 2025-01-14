@@ -3,7 +3,7 @@ import { GalleryVerticalEnd } from "lucide-react"
 
 import { LoginForm } from "@/components/login-form"
 import { getCookie } from "@/helper"
-
+import { redirect } from "next/navigation"
 const token_login = async () => {
   try {
     
@@ -21,8 +21,9 @@ const token_login = async () => {
       throw new Error('Network response was not ok');
     }
 
-    const result = await res.json();
-    console.log('Data submitted:', result);
+    const data = await res.json();
+
+
   } catch (error) {
     console.error('Error submitting data:', error);
   }
@@ -37,7 +38,12 @@ const password_login = async (formData) => {
     body: JSON.stringify(formData),
   })
   const data = await res.json()
+  const expiresDate = new Date()
+  expiresDate.setTime(expiresDate.getTime() + (7 * 24 * 60 * 60 * 1000)) // 7 days from now
+  document.cookie = `token=${data.key}; expires=${expiresDate.toUTCString()}; SameSite=Strict; Secure; HttpOnly`
   console.log(data)
+
+  redirect('/')
 }
 const handleSubmit = (event) => {
   event.preventDefault();

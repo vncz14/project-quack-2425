@@ -1,0 +1,12 @@
+# https://stackoverflow.com/a/50194143
+[project]
+name = "backend"
+version = "0.1.0"
+description = "backend dir"
+
+[tool.setuptools]
+packages = ["backend"]
+
+[build-system]
+build-backend = "flit_core.buildapi"
+requires = ["flit_core >=3.2,<4"]

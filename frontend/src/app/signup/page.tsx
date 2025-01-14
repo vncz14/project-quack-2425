@@ -21,7 +21,7 @@ const register = async (formData, setErrors) => {
     const expiresDate = new Date()
     expiresDate.setTime(expiresDate.getTime() + (7 * 24 * 60 * 60 * 1000)) // 7 days from now
     document.cookie = `token=${data.key}; expires=${expiresDate.toUTCString()}; SameSite=Strict; Secure; HttpOnly`
-    redirect('/login')
+    redirect('/')
   }
 }
 export default function page() {

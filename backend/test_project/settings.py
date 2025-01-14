@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
+# from ..data.serializers import TokenSerializer
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,9 +26,6 @@ SECRET_KEY = 'django-insecure-h%2$t@xqm3$xm_yi9@)34oe!%_@8&cxddg75&xp-s)_p*_x)0$
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -155,3 +153,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
 SITE_ID = 1 # used by dj_rest_auth
+
+REST_AUTH = {
+    'TOKEN_SERIALIZER': 'data.serializers.TokenSerializer'
+}

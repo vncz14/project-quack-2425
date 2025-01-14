@@ -1,0 +1,8 @@
+LICENSE
+README.md
+pyproject.toml
+backend/manage.py
+my_backend.egg-info/PKG-INFO
+my_backend.egg-info/SOURCES.txt
+my_backend.egg-info/dependency_links.txt
+my_backend.egg-info/top_level.txt
