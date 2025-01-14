@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework.authentication import TokenAuthentication
 
+from dj_rest_auth.views import LoginView
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('v1/', include("test_app.urls"))
+    path('', include("data.urls")),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    
 ]
