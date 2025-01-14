@@ -1,6 +1,6 @@
 import os
 from django.core.management.base import BaseCommand
-from test_app.scripts.csv_processor import process_csv
+from data.scripts.csv_processor import process_csv
 
 class Command(BaseCommand):
     help = 'Import events from CSV file into the database'

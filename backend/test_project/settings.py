@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,12 +38,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "rest_framework",
-    "test_app",
+    'rest_framework', # https://www.django-rest-framework.org/
+    'corsheaders', # https://pypi.org/project/django-cors-headers/
+    'data',
+
+    # apps related to auth
+    'rest_framework.authtoken', # required by dj_rest_auth
+    'dj_rest_auth', # https://dj-rest-auth.readthedocs.io/en/stable/index.html
+    
+    # dj_rest_auth registration requirements: https://dj-rest-auth.readthedocs.io/en/stable/installation.html#registration-optional:~:text=Registration%20(optional)%C2%B6
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
 
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware', # from django-allauth
 ]
 
 ROOT_URLCONF = 'test_project.urls'
@@ -57,7 +72,7 @@ ROOT_URLCONF = 'test_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,5 +141,17 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"], # requires authentication to do anything
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (        
+        'rest_framework.authentication.TokenAuthentication',
+    )
+
 }
+
+LOGIN_REDIRECT_URL = '/'
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
+SITE_ID = 1 # used by dj_rest_auth

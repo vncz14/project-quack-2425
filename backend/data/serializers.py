@@ -1,22 +1,22 @@
 from rest_framework import serializers, reverse
-from . import models
+from .models import Event
+from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
+  id_of_hosts = serializers.SlugRelatedField(many=True, slug_field='id', read_only='True')
   class Meta:
-    model = models.User
+    model = User
     fields = "__all__"
 
 class EventSerializer(serializers.ModelSerializer):
-  host = UserSerializer()
+  id_of_hosts = UserSerializer(many=True).data
   class Meta:
-    model = models.Event
+    model = Event
     fields = "__all__"
-
-  # name, host, description, maxCapacity, eventDate, publicStatus
 
   def create(self, validated_data):
         validated_data['host'] = models.User.objects.get(username=validated_data.get('host')['username'])
-        return models.Event.objects.create(**validated_data)
+        return Event.objects.create(**validated_data)
   
   def update(self, instance, validated_data):
     instance.eventName = validated_data.get('eventName', instance.eventName)
@@ -26,5 +26,4 @@ class EventSerializer(serializers.ModelSerializer):
     instance.eventDate = validated_data.get('eventDate', instance.eventDate)
     instance.publicStatus = validated_data.get('publicStatus', instance.publicStatus)
     instance.save()
-    print(instance.eventName)
     return instance

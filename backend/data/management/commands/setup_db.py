@@ -1,7 +1,7 @@
 import os
 from django.core.management.base import BaseCommand
-from test_app.models import User  # Import your custom User model
-from test_app.scripts.csv_processor import process_csv
+from data.models import User  # Import your custom User model
+from data.scripts.csv_processor import process_csv
 
 
 class Command(BaseCommand):
@@ -9,13 +9,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # Create a default user (or retrieve if exists)
-        username = "default_user"
+        name = "default_user"
 
-        user, created = User.objects.get_or_create(username=username)
+        user, created = User.objects.get_or_create(name=name)
         if created:
-            self.stdout.write(self.style.SUCCESS(f"User '{username}' created successfully."))
+            self.stdout.write(self.style.SUCCESS(f"User '{name}' created successfully."))
         else:
-            self.stdout.write(self.style.WARNING(f"User '{username}' already exists."))
+            self.stdout.write(self.style.WARNING(f"User '{name}' already exists."))
 
         # Get the CSV file
         csv_file_path = os.path.join("media", "csv_files", "events_data.csv")
