@@ -29,6 +29,7 @@ class Club(models.Model):
     return self.name
 
 class User(contrib_auth_user):
+  name = models.CharField(max_length=30, null=False, unique=True, validators=[validate_username])
   major = models.ManyToManyField(Major, blank=True)
   club = models.ManyToManyField(Club, blank=True) # associated clubs/clubs they are in
   bio = models.CharField(max_length=255, null=True, editable=True, blank=True)
@@ -37,10 +38,10 @@ class User(contrib_auth_user):
   standing = models.CharField(choices = [('FRE', 'Freshman'), ('SOP', 'Sophomore'), ('JUN', 'Junior'), ('SEN', 'Senior')], max_length = 255, default = 'Freshman')
 
   def greeting(self):
-    return "Hello " + self.username
+    return "Hello " + self.name
 
   def __str__(self):
-    return self.username
+    return self.name
 
 class Event(models.Model):
   event_name = models.CharField(max_length=30, null=False)
@@ -50,14 +51,13 @@ class Event(models.Model):
   capacity = models.PositiveIntegerField(validators=[MaxValueValidator(250)])
   UTC_of_event = models.DateTimeField(null=False)
   open_to_the_public = models.BooleanField()
+  location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)# on_delete=models.SET_NULL means if a Location is deleted from databse, the Event will still exist but won't have any value in location field
   
   def __str__(self):
-    return self.eventName
+    return self.event_name
 
   # TAGS
   # interestTags = models.ForeignKey(Users.interests)
   eventTags = models.CharField(max_length=30, default='OTHER', choices=[
     ('SOCIAL','Social'), ('SPORT','Sport'), ('HOBBY','Hobby'), ('OTHER', 'Other')
   ])
-  
-  
