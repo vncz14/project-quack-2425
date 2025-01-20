@@ -32,8 +32,11 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "src/pages/Profile.tsx"  ],
+    ".next/types/**/*.ts",
+    "src/pages/Profile.tsx",
+    "middleware.ts"
+
+],
   "exclude": [
     "node_modules"
   ]

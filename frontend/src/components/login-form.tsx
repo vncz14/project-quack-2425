@@ -18,6 +18,7 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
+          <p className="list-decimal list-inside mb-2 text-red-500">{props.errors}</p>
           <CardTitle className="text-xl">Welcome back</CardTitle>
           <CardDescription>
             Login with your Apple or Google account

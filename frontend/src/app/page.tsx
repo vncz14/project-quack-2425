@@ -6,20 +6,11 @@ import RootLayout from "./layout";
 import { getCookie } from "@/helper";
 
 const homepage = async () => {
-    const token = getCookie('token')
+    const token = getCookie('csrftoken')
     const res = await fetch('http://localhost:8000/homepage/')
 }
 export default function Home() {
-    return (
-        <div>
-            <Text as="h2">Your profile</Text>
-            
-            Hello
-            {/* <Button asChild>
-                <Link href="/event">
-                    <Text as="h4">shadcn button component (event list)</Text>
-                </Link>
-            </Button> */}
-        </div>
-    );
+    
+    return <a href="/api/auth/signin">Sign in</a>
+
 }

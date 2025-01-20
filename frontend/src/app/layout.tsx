@@ -5,7 +5,6 @@ import Navbar from "../components/custom/navbar";
 import Footer from "../components/custom/footer";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
-
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
     variable: "--font-geist-sans",
@@ -26,6 +25,7 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    
     return (
         <GoogleOAuthProvider clientId="879500142223-iimqo0lppe032d9aaablb0fpbtmrn7sg.apps.googleusercontent.com">
             <html lang="en">

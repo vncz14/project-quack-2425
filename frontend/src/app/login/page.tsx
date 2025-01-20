@@ -4,32 +4,10 @@ import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "@/components/login-form"
 import { getCookie } from "@/helper"
 import { redirect } from "next/navigation"
-const token_login = async () => {
-  try {
-    
-    const token = getCookie('token').split(' ')[0];
-    const res = await fetch('http://localhost:8000/dj-rest-auth/login/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'mode': 'cors',
-        'Authorization': `Token ${token}`
-      }
-    });
+import { useState } from "react"
+import { hasCookie } from "cookies-next/client"
 
-    if (!res.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const data = await res.json();
-
-
-  } catch (error) {
-    console.error('Error submitting data:', error);
-  }
-
-}
-const password_login = async (formData) => {
+const password_login = async (formData, setError) => {
   const res = await fetch('http://localhost:8000/dj-rest-auth/login/', {
     method: 'POST',
     headers: {
@@ -38,24 +16,31 @@ const password_login = async (formData) => {
     body: JSON.stringify(formData),
   })
   const data = await res.json()
+  if (!res.ok) {
+    console.log(data)
+    setError(Object.values(data).flat())
+    return
+  }
   const expiresDate = new Date()
   expiresDate.setTime(expiresDate.getTime() + (7 * 24 * 60 * 60 * 1000)) // 7 days from now
-  document.cookie = `token=${data.key}; expires=${expiresDate.toUTCString()}; SameSite=Strict; Secure; HttpOnly`
-  console.log(data)
+  document.cookie = `csrftoken=${data.key}; expires=${expiresDate.toUTCString()}; SameSite=Strict; Secure; HttpOnly`
 
   redirect('/')
 }
-const handleSubmit = (event) => {
+const handleSubmit = (event, setError) => {
   event.preventDefault();
   const form_data = {
     username: event.target.username.value,
     password: event.target.password.value
   }
-  password_login(form_data)
+  password_login(form_data, setError)
   
 }
 export default function LoginPage() {
-  token_login()
+  if (hasCookie('csrftoken')) {
+    redirect('/')
+  }
+  const [errors, setErrors] = useState('')
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
       <div className="flex w-full max-w-sm flex-col gap-6">
@@ -65,7 +50,7 @@ export default function LoginPage() {
           </div>
           Wolfie's Social
         </a>
-        <LoginForm onSubmit={handleSubmit} />
+        <LoginForm errors={errors} onSubmit={event => handleSubmit(event, setErrors)} />
       </div>
     </div>
   )
