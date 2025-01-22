@@ -2,29 +2,36 @@
 import { GalleryVerticalEnd } from "lucide-react"
 
 import { LoginForm } from "@/components/login-form"
-import { getCookie } from "@/helper"
 import { redirect } from "next/navigation"
 import { useState } from "react"
-import { hasCookie } from "cookies-next/client"
+import { setConfig } from "next/config"
+import Cookies from "js-cookie"
+import { client_revalidate_path } from "./client_revalidate_path"
+import { revalidatePath } from "next/cache"
 
 const password_login = async (formData, setError) => {
   const res = await fetch('http://localhost:8000/dj-rest-auth/login/', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
+
     },  
     body: JSON.stringify(formData),
   })
   const data = await res.json()
   if (!res.ok) {
-    console.log(data)
     setError(Object.values(data).flat())
     return
   }
-  const expiresDate = new Date()
-  expiresDate.setTime(expiresDate.getTime() + (7 * 24 * 60 * 60 * 1000)) // 7 days from now
-  document.cookie = `csrftoken=${data.key}; expires=${expiresDate.toUTCString()}; SameSite=Strict; Secure; HttpOnly`
+  Cookies.set('csrftoken', data.key, { 
+    expires: 7,
+    sameSite: 'strict',
+    secure: true,
+    httpOnly: process.env.IS_PRODUCTION == 'true'
 
+  })
+  Cookies.set('user', JSON.stringify(data.user))
+  client_revalidate_path('/')
   redirect('/')
 }
 const handleSubmit = (event, setError) => {
@@ -37,7 +44,7 @@ const handleSubmit = (event, setError) => {
   
 }
 export default function LoginPage() {
-  if (hasCookie('csrftoken')) {
+  if (Cookies.get('csrftoken') !== undefined) {
     redirect('/')
   }
   const [errors, setErrors] = useState('')

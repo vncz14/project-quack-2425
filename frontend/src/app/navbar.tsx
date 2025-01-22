@@ -1,27 +1,25 @@
-"use client";
-
 import Link from "next/link";
 import {
   NavigationMenu, NavigationMenuItem, NavigationMenuLink, 
   NavigationMenuList, navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
 import LoginLogoutButton from "@/components/ui/loginButton";
-import { useEffect, useState } from "react";
-import { hasCookie } from "cookies-next/client";
+import { cookies } from 'next/headers'
+import { useEffect } from "react";
 
-export default function Navbar() {
+export async function getServerSideProps(context) {
+  const cookies = context.req.headers.cookie;
+  console.log(cookies)
+  return {
+    props: {},
+  };
+}
+export default async function Navbar() {
+
+  const cookieStore = await cookies()
   const guest = ['/', 'login']
   const authenticated = ["/", "profile", "radar", "events", "people-search", "settings", "logout"];
-  let navigationItems = hasCookie('csrftoken') ? authenticated : guest;
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => { // resolves https://nextjs.org/docs/messages/react-hydration-error
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
-
+  let navigationItems = cookieStore.has('csrftoken') ? authenticated : guest
   return (
     <div className="">
       <NavigationMenu>

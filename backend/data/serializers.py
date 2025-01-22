@@ -9,6 +9,9 @@ class UserSerializer(serializers.ModelSerializer):
     model = User
     fields = "__all__"
 
+class ClientUserSerializer(UserSerializer):
+  class Meta(UserSerializer.Meta):
+    fields = ['date_joined', 'username', 'email', 'first_name', 'last_name', 'groups']
 class EventSerializer(serializers.ModelSerializer):
   id_of_hosts = UserSerializer(many=True).data
   class Meta:
@@ -30,7 +33,7 @@ class EventSerializer(serializers.ModelSerializer):
     return instance
 
 class TokenSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = ClientUserSerializer()
     class Meta:
         model = TokenModel
         fields = ('key', 'user')

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Navbar from "../components/custom/navbar";
+import Navbar from "./navbar";
 import Footer from "../components/custom/footer";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
