@@ -172,3 +172,7 @@ cython_debug/
 
 # MacOS
 backend/.DS_Store
+
+
+.venv
+/__pycache__/*
