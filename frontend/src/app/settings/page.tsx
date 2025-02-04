@@ -70,7 +70,7 @@ export default function Page() {
     } else if (user !== null) {
       Cookies.set("user", JSON.stringify(user));
     }
-  }, []);
+  }, [user]);
 
   if (!user) return <>Loading</>;
   const for_account_info: for_account_info_type = [
