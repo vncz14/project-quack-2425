@@ -2,6 +2,8 @@
 import Signup from "@/components/signup";
 import { useState } from "react";
 import { redirect } from 'next/navigation'
+import Cookies from "js-cookie";
+import { client_revalidate_path } from "../login/client_revalidate_path";
 
 const register = async (formData, setErrors) => {
   const res = await fetch('http://localhost:8000/dj-rest-auth/registration/', {
@@ -17,10 +19,15 @@ const register = async (formData, setErrors) => {
     setErrors(Object.values(data).flat()) // Object.values() gets the values of a dictionary -> list
   }
   else {
-    console.log(data)
-    const expiresDate = new Date()
-    expiresDate.setTime(expiresDate.getTime() + (7 * 24 * 60 * 60 * 1000)) // 7 days from now
-    document.cookie = `token=${data.key}; expires=${expiresDate.toUTCString()}; SameSite=Strict; Secure; HttpOnly`
+    Cookies.set('csrftoken', data.key, { 
+      expires: 7,
+      sameSite: 'strict',
+      secure: true,
+      httpOnly: process.env.IS_PRODUCTION == 'true'
+  
+    })
+    Cookies.set('user', JSON.stringify(data.user))
+    client_revalidate_path('/')
     redirect('/')
   }
 }

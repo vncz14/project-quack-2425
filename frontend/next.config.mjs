@@ -1,14 +1,4 @@
 /** @type {import('next').NextConfig} */
-export function headers() {
-  return [
-    {
-      source: '/login',
-      headers: [
-        {
-          key: 'Cache-Control',
-          value: 'no-store',
-        },
-      ],
-    },
-  ];
+export default {
+  reactStrictMode: false,
 }

@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User as contrib_auth_user
 from django.core.validators import MaxValueValidator
-from .my_validators import *
 
 # Create your models here. yummy data 🤤
 import re
@@ -29,13 +28,18 @@ class Club(models.Model):
     return self.name
 
 class User(contrib_auth_user):
-  name = models.CharField(max_length=30, null=False, unique=True, validators=[validate_username])
   major = models.ManyToManyField(Major, blank=True)
   club = models.ManyToManyField(Club, blank=True) # associated clubs/clubs they are in
   bio = models.CharField(max_length=255, null=True, editable=True, blank=True)
   points = models.PositiveIntegerField(default=0)
   residentialStatus = models.CharField(choices = [('RES', 'Residential'), ('COM', 'Commuter')], max_length = 255, default = 'Residental')
   standing = models.CharField(choices = [('FRE', 'Freshman'), ('SOP', 'Sophomore'), ('JUN', 'Junior'), ('SEN', 'Senior')], max_length = 255, default = 'Freshman')
+  
+  def __init__(self, first_name, last_name, *args, **kwargs):
+    self.first_name = 'Not Set' if first_name == '' else first_name # ternary operator
+    self.last_name = 'Not Set' if last_name == '' else last_name
+    console.log("first name: " + self.first_name)
+    super(contrib_auth_user, self).__init__(self, *args, **kwargs)
 
   def greeting(self):
     return "Hello " + self.name

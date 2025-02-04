@@ -1,5 +1,3 @@
-import { FcGoogle } from "react-icons/fc";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -50,7 +48,6 @@ const Signup = ({ onSubmit, errors }) => {
                     Create an account
                   </Button>
                   <Button variant="outline" className="w-full">
-                    <FcGoogle className="mr-2 size-5" />
                     Sign up with Google
                   </Button>
                 </div>

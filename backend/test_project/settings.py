@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework', # https://www.django-rest-framework.org/
     'corsheaders', # https://pypi.org/project/django-cors-headers/
     'data',
+    'django_extensions',
 
     # apps related to auth
     'rest_framework.authtoken', # required by dj_rest_auth
@@ -155,5 +156,6 @@ CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
 SITE_ID = 1 # used by dj_rest_auth
 
 REST_AUTH = {
-    'TOKEN_SERIALIZER': 'data.serializers.TokenSerializer'
+    'TOKEN_SERIALIZER': 'data.serializers.TokenSerializer',
+    'REGISTER_SERIALIZER': 'data.serializers.RegisterSerializer'
 }

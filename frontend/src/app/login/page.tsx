@@ -9,14 +9,14 @@ import Cookies from "js-cookie"
 import { client_revalidate_path } from "./client_revalidate_path"
 import { revalidatePath } from "next/cache"
 
-const password_login = async (formData, setError) => {
+const password_login = async (form_data, setError) => {
   const res = await fetch('http://localhost:8000/dj-rest-auth/login/', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
 
     },  
-    body: JSON.stringify(formData),
+    body: JSON.stringify(form_data),
   })
   const data = await res.json()
   if (!res.ok) {
@@ -28,7 +28,6 @@ const password_login = async (formData, setError) => {
     sameSite: 'strict',
     secure: true,
     httpOnly: process.env.IS_PRODUCTION == 'true'
-
   })
   Cookies.set('user', JSON.stringify(data.user))
   client_revalidate_path('/')

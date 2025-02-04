@@ -1,7 +1,14 @@
 from rest_framework import serializers, reverse
-from .models import Event
-from django.contrib.auth.models import User
+from .models import Event, User
 from dj_rest_auth.models import TokenModel
+from dj_rest_auth.registration import serializers as auth_serializers
+
+class RegisterSerializer(auth_serializers.RegisterSerializer):
+  def save(self, request):
+    user = super().save(request)
+    user.first_name = 'Not Set'
+    user.last_name = 'Not Set'
+    return user
 
 class UserSerializer(serializers.ModelSerializer):
   id_of_hosts = serializers.SlugRelatedField(many=True, slug_field='id', read_only='True')
