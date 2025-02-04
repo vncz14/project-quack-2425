@@ -14,13 +14,13 @@ class Event(models.Model):
   description = models.CharField(max_length=999, null=True, editable=True)
   maxCapacity = models.PositiveIntegerField(validators=[MaxValueValidator(250)])
   eventDate = models.DateTimeField(null=False)
-  publicStatus = models.CharField(max_length=30, choices=[('OPEN','Open'), ('CLOSED','Closed')])
-  invites = models.ManyToManyField(User, through='Invite', related_name='events_invited_to', through_fields=('event', 'receiver'))
+  publicStatus = models.CharField(max_length=30, choices=[('Open'), ('Closed')])
+  # having invites as a many to many field here is redundant and unnecessary
 
   # TAGS
-  # interestTags = modecls.ForeignKey(Users.interests)
+  # interestTags = models.ForeignKey(Users.interests)
   eventTags = models.CharField(max_length=30, default='OTHER', choices=[
-    ('SOCIAL','Social'), ('SPORT','Sport'), ('HOBBY','Hobby'), ('OTHER', 'Other')
+    ('Social'), ('Sport'), ('Hobby'), ('Other')
     ])
   
 class Invite(models.Model):
@@ -30,3 +30,12 @@ class Invite(models.Model):
 
   def __str__(self):
     return f'Invite from {self.sender} to {self.receiver} for {self.event}'
+
+class EventAttendance(models.Model): # Handles event attendance of both invited and non invited people (in the case of a public event where a person doesn't need to be invited)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    attendee = models.ForeignKey(User, on_delete=models.CASCADE)
+    rsvp_status = models.CharField(max_length=30, choices=[('confirmed'), ('pending'), ('denied')]) # Pending should only apply to invites. Anyone can confirm or deny if event is pub, only invited users can if event is private (NOT IMPLEMENTED YET)
+    invite = models.ForeignKey(Invite, on_delete=models.SET_NULL, null=True, blank=True) # For public events (non invited participants), this will be null
+
+    class Meta:
+        unique_together = ('event', 'attendee') # Meta option that ensures unique pairing (attendee can not attend event multiple times)
