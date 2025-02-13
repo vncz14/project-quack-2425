@@ -1,29 +1,45 @@
 from rest_framework import serializers, reverse
-from .models import Event
+from . import models
+from data.models import Event
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
-  id_of_hosts = serializers.SlugRelatedField(many=True, slug_field='id', read_only='True')
+  id_of_hosts = serializers.SlugRelatedField(many=True, slug_field='id', read_only=True)
   class Meta:
     model = User
     fields = "__all__"
 
 class EventSerializer(serializers.ModelSerializer):
-  id_of_hosts = UserSerializer(many=True).data
+  id_of_host = UserSerializer().data
   class Meta:
     model = Event
     fields = "__all__"
 
   def create(self, validated_data):
-        validated_data['host'] = models.User.objects.get(username=validated_data.get('host')['username'])
-        return Event.objects.create(**validated_data)
+    try:
+      host_username = validated_data.pop('host')['username']
+      host_instance = User.objects.get(username=host_username)
+      instance = Event.objects.create(host=host_instance, **validated_data)
+      return instance
+    except KeyError:
+      raise serializers.ValidationError("Host information not provided")
+    except User.DoesNotExist:
+      raise serializers.ValidationError("User not found")
+
   
   def update(self, instance, validated_data):
-    instance.eventName = validated_data.get('eventName', instance.eventName)
-    instance.host = models.User.objects.get(username=validated_data.get('host', instance.host)['username'])
-    instance.description = validated_data.get('description', instance.description)
-    instance.maxCapacity = validated_data.get('maxCapacity', instance.maxCapacity)
-    instance.eventDate = validated_data.get('eventDate', instance.eventDate)
-    instance.publicStatus = validated_data.get('publicStatus', instance.publicStatus)
-    instance.save()
+    try:
+      if 'host' in validated_data:
+        host_username = validated_data['host']['username']
+        instance.host = User.objects.get(username=host_username)
+      instance.eventName = validated_data.get('eventName', instance.eventName)
+      instance.description = validated_data.get('description', instance.description)
+      instance.maxCapacity = validated_data.get('maxCapacity', instance.maxCapacity)
+      instance.eventDate = validated_data.get('eventDate', instance.eventDate)
+      instance.publicStatus = validated_data.get('publicStatus', instance.publicStatus)
+      instance.save()
+    except KeyError as e:
+      raise serializers.ValidationError(f"Missing key: {str(e)}")
+    except Exception as e:
+      raise serializers.ValidationError(str(e))
     return instance

@@ -15,11 +15,11 @@ from rest_framework.renderers import JSONRenderer
 class UserList(generics.ListCreateAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
-  permission_classes = [permissions.IsAdminUser]
+  permission_classes = [permissions.AllowAny]
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
   serializer_class = UserSerializer
-  permission_classes = [permissions.IsAuthenticated]
+  permission_classes = [permissions.AllowAny]
   def get_object(self):
     return get_object_or_404(User, id=self.kwargs.get("id"))
 
@@ -38,11 +38,11 @@ class RetrieveIdByEmail(generics.RetrieveAPIView):
 class EventList(generics.ListCreateAPIView):
   queryset = Event.objects.all()
   serializer_class = EventSerializer
-  permission_classes = [permissions.IsAuthenticated]
+  permission_classes = [permissions.AllowAny]
 
 class EventDetail(generics.RetrieveUpdateDestroyAPIView):
   serializer_class = EventSerializer
-  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+  permission_classes = [permissions.AllowAny]
 
   def get_object(self):
     return get_object_or_404(Event, id=self.kwargs.get("id"))
