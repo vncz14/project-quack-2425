@@ -45,13 +45,13 @@ class User(contrib_auth_user):
 
 class Event(models.Model):
   event_name = models.CharField(max_length=30, null=False)
-  hosts = models.ManyToManyField(User, related_name='hosts_of')
-  participants = models.ManyToManyField(User, related_name='event_participants')
+  host = models.ForeignKey(User, related_name='events_hosted', on_delete=models.CASCADE, null=True) #nullable temporary for migrations, should change later
+  participants = models.ManyToManyField(User, related_name='event_participants', blank=True)
   description = models.CharField(max_length=999, null=True, editable=True)
   capacity = models.PositiveIntegerField(validators=[MaxValueValidator(250)])
   UTC_of_event = models.DateTimeField(null=False)
   open_to_the_public = models.BooleanField()
-  location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)# on_delete=models.SET_NULL means if a Location is deleted from databse, the Event will still exist but won't have any value in location field
+  location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
   
   def __str__(self):
     return self.event_name

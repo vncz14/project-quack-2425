@@ -4,21 +4,19 @@ from data.models import Event
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
-  id_of_hosts = serializers.SlugRelatedField(many=True, slug_field='id', read_only=True)
   class Meta:
     model = User
     fields = "__all__"
 
 class EventSerializer(serializers.ModelSerializer):
-  id_of_host = UserSerializer().data
+  host = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
   class Meta:
     model = Event
     fields = "__all__"
 
   def create(self, validated_data):
     try:
-      host_username = validated_data.pop('host')['username']
-      host_instance = User.objects.get(username=host_username)
+      host_instance = validated_data.pop('host')
       instance = Event.objects.create(host=host_instance, **validated_data)
       return instance
     except KeyError:
