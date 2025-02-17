@@ -38,7 +38,10 @@ class RetrieveIdByEmail(generics.RetrieveAPIView):
 class EventList(generics.ListCreateAPIView):
   queryset = Event.objects.all()
   serializer_class = EventSerializer
-  permission_classes = [permissions.AllowAny]
+  permission_classes = [permissions.IsAuthenticated]
+
+  def perform_create(self, serializers):
+    seralizers.save(host=self.request.user)
 
 class EventDetail(generics.RetrieveUpdateDestroyAPIView):
   serializer_class = EventSerializer
