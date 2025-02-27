@@ -6,7 +6,7 @@ services:
         hostname: backend
         restart: always
         ports:
-            - 8000:8000
+            - ${DJANGO_PORT}:${DJANGO_PORT}
         env_file:
             - .env
         environment:
@@ -27,8 +27,9 @@ services:
             - .env
         environment:
             API_URL: ${EXTERNAL_API_URL}
+            NEXT_PORT: ${NEXT_PORT}
         ports:
-            - 80:3000
+            - ${NEXT_PORT}:${NEXT_PORT}
         volumes:
             - ./frontend/src:/code/src
             - ./frontend/node_modules:/code/node_modules
