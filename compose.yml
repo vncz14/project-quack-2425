@@ -3,7 +3,7 @@ version: "3.7"
 services:
     backend:
         build: backend
-        hostname: backend
+        hostname: friend-backend
         restart: always
         ports:
             - ${DJANGO_PORT}:${DJANGO_PORT}
