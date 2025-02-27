@@ -15,9 +15,6 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Copy environment example file from root directory
-COPY ../.env .env
-
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
