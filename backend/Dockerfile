@@ -18,9 +18,8 @@ RUN pip install -r requirements.txt
 COPY . /app
 
 # Expose the port the app runs on
-ARG PORT=${DJANGO_PORT}
 EXPOSE ${DJANGO_PORT}
 
 # Run the application
 RUN python manage.py migrate
-CMD python manage.py runserver 0.0.0.0:${PORT}
+CMD python manage.py runserver 0.0.0.0:${DJANGO_PORT}
