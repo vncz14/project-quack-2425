@@ -59,3 +59,4 @@ class Homepage(generics.ListAPIView):
       'my_events': EventSerializer(my_events, many='True').data,
     }
     return Response(res, content_type='application/json')
+    

@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User as contrib_auth_user
+from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator
+import uuid
 
 # Create your models here. yummy data 🤤
 import re
@@ -27,25 +28,14 @@ class Club(models.Model):
   def __str__(self):
     return self.name
 
-class User(contrib_auth_user):
+class User(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
   major = models.ManyToManyField(Major, blank=True)
   club = models.ManyToManyField(Club, blank=True) # associated clubs/clubs they are in
   bio = models.CharField(max_length=255, null=True, editable=True, blank=True)
   points = models.PositiveIntegerField(default=0)
   residentialStatus = models.CharField(choices = [('RES', 'Residential'), ('COM', 'Commuter')], max_length = 255, default = 'Residental')
   standing = models.CharField(choices = [('FRE', 'Freshman'), ('SOP', 'Sophomore'), ('JUN', 'Junior'), ('SEN', 'Senior')], max_length = 255, default = 'Freshman')
-  
-  def __init__(self, first_name, last_name, *args, **kwargs):
-    self.first_name = 'Not Set' if first_name == '' else first_name # ternary operator
-    self.last_name = 'Not Set' if last_name == '' else last_name
-    console.log("first name: " + self.first_name)
-    super(contrib_auth_user, self).__init__(self, *args, **kwargs)
-
-  def greeting(self):
-    return "Hello " + self.name
-
-  def __str__(self):
-    return self.name
 
 class Event(models.Model):
   event_name = models.CharField(max_length=30, null=False)
@@ -56,12 +46,11 @@ class Event(models.Model):
   UTC_of_event = models.DateTimeField(null=False)
   open_to_the_public = models.BooleanField()
   location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)# on_delete=models.SET_NULL means if a Location is deleted from databse, the Event will still exist but won't have any value in location field
-  
-  def __str__(self):
-    return self.event_name
-
-  # TAGS
+    # TAGS
   # interestTags = models.ForeignKey(Users.interests)
   eventTags = models.CharField(max_length=30, default='OTHER', choices=[
     ('SOCIAL','Social'), ('SPORT','Sport'), ('HOBBY','Hobby'), ('OTHER', 'Other')
   ])
+
+  def __str__(self):
+    return self.event_name
