@@ -6,7 +6,7 @@ services:
         hostname: friend-backend
         restart: always
         ports:
-            - ${DJANGO_PORT}:${DJANGO_PORT}
+            - ${DJANGO_PORT}:8000
         env_file:
             - .env
         environment:
@@ -29,7 +29,7 @@ services:
             API_URL: ${EXTERNAL_API_URL}
             NEXT_PORT: ${NEXT_PORT}
         ports:
-            - ${NEXT_PORT}:${NEXT_PORT}
+            - ${NEXT_PORT}:3000
         volumes:
             - ./frontend/src:/code/src
             - ./frontend/node_modules:/code/node_modules
